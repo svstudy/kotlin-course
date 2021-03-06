@@ -8,10 +8,6 @@ class Stack<T>() {
 
     val size: Int get() = dataItems.size
 
-    constructor(items: List<T>) : this() {
-        dataItems.addAll(items.reversed())
-    }
-
     fun push(item: T) {
         dataItems.push(item)
     }

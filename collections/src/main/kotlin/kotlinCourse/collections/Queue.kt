@@ -8,10 +8,6 @@ class Queue<T>() {
 
     val size: Int get() = dataItems.size
 
-    constructor(items: List<T>) : this() {
-        dataItems.addAll(items)
-    }
-
     fun enqueue(item: T) {
         dataItems.add(item)
     }
