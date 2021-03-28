@@ -1,6 +1,6 @@
 package kotlinCourse.database.utils
 
 interface Logger {
-    fun Error(msg: String)
-    fun Trace(msg: String)
+    fun error(msg: String)
+    fun trace(msg: String)
 }

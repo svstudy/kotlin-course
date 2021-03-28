@@ -36,7 +36,7 @@ fun main() {
         val carsByYear = dbService.getCarsByYearDescending()
         printInfo("getCarsByYearDescending()", carsByYear)
     } catch (ex: DataException) {
-        logger.Error("${ex.message} ${ex.stackTrace}")
+        logger.error("${ex.message} ${ex.stackTrace}")
         throw ex
     } finally {
         initializer.clearSchema()

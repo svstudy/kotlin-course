@@ -15,11 +15,11 @@ class DBClient(private val connString: String, private val logger: Logger) {
                 }
             }
         } catch (ex: SQLException) {
-            logger.Error("${ex.message} ${ex.stackTrace}")
+            logger.error("${ex.message} ${ex.stackTrace}")
             return false
         }
         catch (ex: SQLTimeoutException) {
-            logger.Error("${ex.message} ${ex.stackTrace}")
+            logger.error("${ex.message} ${ex.stackTrace}")
             return false
         }
     }
@@ -43,11 +43,11 @@ class DBClient(private val connString: String, private val logger: Logger) {
                 }
             }
         } catch (ex: SQLException) {
-            logger.Error("${ex.message} ${ex.stackTrace}")
+            logger.error("${ex.message} ${ex.stackTrace}")
             throw DataException(ex.message, ex)
         }
         catch (ex: SQLTimeoutException) {
-            logger.Error("${ex.message} ${ex.stackTrace}")
+            logger.error("${ex.message} ${ex.stackTrace}")
             throw DataException(ex.message, ex)
         }
     }

@@ -103,10 +103,10 @@ class DBInitializer(private val dbClient: DBClient, private val logger: Logger) 
 
     private fun tryExecute(cmdName: String, sql: String): Boolean {
         return if (dbClient.execute(sql)) {
-            logger.Trace("'$cmdName' successful")
+            logger.trace("'$cmdName' successful")
             true
         } else {
-            logger.Trace("'$cmdName' failed")
+            logger.trace("'$cmdName' failed")
             false
         }
     }

@@ -9,8 +9,8 @@ class DBService(private val dbClient: DBClient) {
 
     @Throws(DataException::class)
     fun getCarById(id: Int): Car? {
-        return dbClient.executeQuery("SELECT * FROM car WHERE id = ?", { st ->
-            st.setInt(1, id)
+        return dbClient.executeQuery("SELECT * FROM car WHERE id = ?", {
+            it.setInt(1, id)
         }, ::mapCar).firstOrNull()
     }
 
@@ -28,8 +28,8 @@ class DBService(private val dbClient: DBClient) {
             FROM car c
             INNER JOIN rent_office ro on ro.id = c.rent_office_id
             """
-        ) { rs ->
-            Pair(rs.getString(1), rs.getString(2))
+        ) {
+            Pair(it.getString(1), it.getString(2))
         }
     }
 
@@ -63,5 +63,4 @@ class DBService(private val dbClient: DBClient) {
         rs.getString("customer_full_name"),
         BigDecimal.valueOf(rs.getInt("total_spending") / 100.0),
     )
-
 }

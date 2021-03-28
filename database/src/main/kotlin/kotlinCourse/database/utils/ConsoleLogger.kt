@@ -1,12 +1,12 @@
 package kotlinCourse.database.utils
 
 class ConsoleLogger(private val level: LogLevel = LogLevel.ERROR): Logger {
-    override fun Error(msg: String) {
+    override fun error(msg: String) {
         if (level >= LogLevel.ERROR)
             println("Error: $msg")
     }
 
-    override fun Trace(msg: String) {
+    override fun trace(msg: String) {
         if (level >= LogLevel.TRACE)
             println("Trace: $msg")
     }
