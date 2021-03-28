@@ -1,0 +1,19 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.4.10'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.10"
+    // https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-jdbc
+    implementation 'org.jetbrains.kotlin:kotlin-jdbc:0.12.213'
+    //implementation group: 'org.jetbrains.kotlin', name: 'kotlin-jdbc', version: '0.12.213'
+    // https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
+    implementation 'org.xerial:sqlite-jdbc:3.34.0'
+}
