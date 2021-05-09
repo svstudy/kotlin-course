@@ -1,0 +1,39 @@
+plugins {
+    id 'application'
+    id 'org.jetbrains.kotlin.jvm' version '1.5.0'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.5.0'
+}
+
+group "kotlinCourse"
+version "0.0.1"
+
+application {
+    mainClass = "kotlinCourse.frameworks.ApplicationKt"
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "io.ktor:ktor-server-core:$ktor_version"
+    implementation "io.ktor:ktor-serialization:$ktor_version"
+    implementation "io.ktor:ktor-server-netty:$ktor_version"
+    implementation "ch.qos.logback:logback-classic:$logback_version"
+
+    implementation "io.github.config4k:config4k:0.4.2"
+
+    implementation "org.flywaydb:flyway-core:7.8.2"
+    implementation "com.h2database:h2:1.4.200"
+    implementation "org.jetbrains.exposed:exposed-jdbc:0.31.1" // https://github.com/JetBrains/Exposed/issues/748
+    implementation "org.jetbrains.exposed:exposed-core:0.31.1"
+
+    implementation 'org.kodein.di:kodein-di-framework-ktor-server-jvm:7.5.0'
+
+    testImplementation "io.ktor:ktor-server-tests:$ktor_version"
+
+}
