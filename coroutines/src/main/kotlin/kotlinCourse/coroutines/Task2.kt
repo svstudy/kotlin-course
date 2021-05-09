@@ -11,7 +11,7 @@ fun main() = runBlocking {
     }
 }
 
-suspend fun CoroutineScope.temperatureNotifier() = produce {
+private suspend fun CoroutineScope.temperatureNotifier() = produce {
     while (true) {
         send(Random.nextInt(-30, 30))
         delay(2000)
