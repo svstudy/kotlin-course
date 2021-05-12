@@ -1,0 +1,55 @@
+version: '3.1'
+
+services:
+  database2:
+    container_name: docker-http2-db
+    image: postgres:11
+    environment:
+      - POSTGRES_DB=${DB2_NAME}
+      - POSTGRES_USER=${DB2_USER}
+      - POSTGRES_PASSWORD=${DB2_PASS}
+    ports:
+      - "5433:5432"
+    volumes:
+      - ../http2/src/main/resources/db-init:/docker-entrypoint-initdb.d/
+
+  rentOfficeService:
+    container_name: docker-http2
+    image: docker-http2:1.0
+    environment:
+      - LOG_LEVEL=${APP2_LOG_LEVEL}
+      - JDBC_URL=${APP2_JDBC_URL}/${DB2_NAME}
+      - JDBC_USER=${DB2_USER}
+      - JDBC_PASS=${DB2_PASS}
+    depends_on:
+      - database2
+    ports:
+      - "9090:9090"
+
+  database:
+    container_name: docker-http-db
+    image: mysql:8.0.25
+    environment:
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_ROOT_PASSWORD=${DB_PASS}
+    ports:
+      - "3307:3306"
+    volumes:
+      - type: bind
+        source: ../http/src/main/resources/db-init
+        target: /docker-entrypoint-initdb.d/
+
+  carService:
+    container_name: docker-http
+    image: docker-http:1.0
+    environment:
+      - LOG_LEVEL=${APP_LOG_LEVEL}
+      - JDBC_URL=${APP_JDBC_URL}/${DB_NAME}
+      - JDBC_USER=root
+      - JDBC_PASS=${DB_PASS}
+      - RENT_OFFICE_SERVICE_URL=${APP_RENT_OFFICE_SERVICE_URL}
+    depends_on:
+      - database
+      - rentOfficeService
+    ports:
+      - "8080:8080"
