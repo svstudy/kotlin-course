@@ -1,29 +1,34 @@
-package kotlincourse.http.api
+package kotlinCourse.http.api
 
 import io.swagger.annotations.ApiOperation
+import kotlinCourse.http.configuration.RentOfficeServiceProperties
 import kotlinCourse.http.model.Car
-import kotlincourse.http.model.CarWithRentOffice
-import kotlincourse.http.model.RentOffice
-import kotlincourse.http.services.CarDao
+import kotlinCourse.http.model.CarWithRentOffice
+import kotlinCourse.http.model.RentOffice
+import kotlinCourse.http.services.CarRepository
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.reactive.function.client.WebClient
-import java.lang.RuntimeException
 import java.util.*
 
 @RestController
 @RequestMapping("/car")
-class CarController(private val carDao: CarDao) {
-    private val webClient: WebClient = WebClient.create("http://localhost:9090")
+class CarController(
+    @Autowired private val carRepo: CarRepository,
+    @Autowired private val rentOfficeServProps: RentOfficeServiceProperties
+    ) {
+
+    private val rentOfficeClient: WebClient = WebClient.create("http://" + rentOfficeServProps.url)
 
     @ApiOperation("Returns all cars")
     @GetMapping
-    fun getCars(): List<Car> = carDao.getAll()
+    fun getCars(): List<Car> = carRepo.findAll()
 
     @ApiOperation("Returns car with rent office info by id")
     @GetMapping("/{id}")
     fun getCar(@PathVariable id: Int): ResponseEntity<CarWithRentOffice> {
-        val car = carDao.getById(id) ?:
+        val car = carRepo.findById(id).orElse(null) ?:
             return ResponseEntity.notFound().build()
         var office = getRentOffice(car.rentOfficeId) ?:
             return ResponseEntity.notFound().build()
@@ -33,26 +38,8 @@ class CarController(private val carDao: CarDao) {
         ))
     }
 
-    @ApiOperation("Adds a new car")
-    @PostMapping
-    fun addCar(@RequestBody car: Car) {
-        println("Car was added. Car = $car")
-    }
-
-    @ApiOperation("Updates a car by id")
-    @PutMapping("/{id}")
-    fun updateCar(@PathVariable id: Int, @RequestBody car: Car) {
-        println("Car was updated. Car = $car, id = $id")
-    }
-
-    @ApiOperation("Deletes a car by id")
-    @DeleteMapping("/{id}")
-    fun deleteCar(@PathVariable id: Int) {
-        println("Car was deleted with id = $id")
-    }
-
     private fun getRentOffice(id: Int): RentOffice? {
-        return webClient.get()
+        return rentOfficeClient.get()
             .uri("rentOffice/$id")
             .retrieve()
             .bodyToMono(RentOffice::class.java)

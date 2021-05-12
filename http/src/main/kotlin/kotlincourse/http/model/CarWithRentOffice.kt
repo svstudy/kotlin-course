@@ -1,4 +1,4 @@
-package kotlincourse.http.model
+package kotlinCourse.http.model
 
 data class CarWithRentOffice(
     val id: Int,

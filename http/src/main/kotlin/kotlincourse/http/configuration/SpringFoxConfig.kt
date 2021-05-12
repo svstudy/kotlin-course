@@ -1,4 +1,4 @@
-package kotlincourse.http.configuration
+package kotlinCourse.http.configuration
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

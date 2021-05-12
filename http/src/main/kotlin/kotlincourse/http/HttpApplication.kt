@@ -1,4 +1,4 @@
-package kotlincourse.http
+package kotlinCourse.http
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
