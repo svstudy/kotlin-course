@@ -1,6 +1,8 @@
 package kotlincourse.http.api
 
 import io.swagger.annotations.ApiOperation
+import io.swagger.annotations.ApiResponse
+import io.swagger.annotations.ApiResponses
 import kotlinCourse.http.model.Car
 import kotlincourse.http.model.CarWithRentOffice
 import kotlincourse.http.model.RentOffice
@@ -8,8 +10,7 @@ import kotlincourse.http.services.CarDao
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.reactive.function.client.WebClient
-import java.lang.RuntimeException
-import java.util.*
+import java.util.Optional
 
 @RestController
 @RequestMapping("/car")
@@ -21,6 +22,10 @@ class CarController(private val carDao: CarDao) {
     fun getCars(): List<Car> = carDao.getAll()
 
     @ApiOperation("Returns car with rent office info by id")
+    @ApiResponses(
+        ApiResponse(code = 404, message = "Not Found"),
+        ApiResponse(code = 200, message = "OK", response = CarWithRentOffice::class)
+    )
     @GetMapping("/{id}")
     fun getCar(@PathVariable id: Int): ResponseEntity<CarWithRentOffice> {
         val car = carDao.getById(id) ?:
